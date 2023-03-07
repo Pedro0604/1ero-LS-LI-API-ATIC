@@ -1,0 +1,21 @@
+  ORG 1000H
+  CADENA DB "Hola, me llamo Pedro Spadari y tengo 18 años, 4 meses y 25 días. Vivo en la ciudad de La Plata, Provincia de Buenos Aires, Argentina."
+  CERO DB 0
+  LONGITUD DW ?
+
+  ORG 3000H
+LONG: MOV CX, 0
+LOOP: MOV AL, [BX]
+  CMP AL, 0
+  JZ FIN
+  INC BX
+  INC CX
+  JMP LOOP
+FIN: RET
+
+  ORG 2000H
+  MOV  BX, OFFSET CADENA
+  CALL LONG
+  MOV LONGITUD, CX
+  HLT
+  END

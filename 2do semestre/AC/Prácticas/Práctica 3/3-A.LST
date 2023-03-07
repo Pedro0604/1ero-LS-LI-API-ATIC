@@ -1,0 +1,49 @@
+
+								p gina: 1 
+
+ Listado Fuente: 3-A.LST
+ Programa Fuente en: 3-A.ASM
+ Fecha: Wed Sep 21 11:41:22 2022
+
+ ÚDir.ÚCodigo maquina	 Linea¿	ÚCodigo en lenguaje ensamble
+
+			      1	HAND EQU 40H
+			      2	ESTADO EQU 41H
+			      3	
+			      4	
+			      5	ORG 1000H
+ 1000 49 4E 47 45 4E 49	      6	 MSJ DB "INGENIERIA E INFORMATICA"
+ 1006 45 52 49 41 20 45
+ 100C 20 49 4E 46 4F 52
+ 1012 4D 41 54 49 43 41
+ 1018 49		      7	 FIN DB ?
+			      8	
+			      9	
+			     10	ORG 2000H
+ 2000 B0 7F		     11	 MOV AL, 01111111B
+ 2002 E6 41		     12	 OUT ESTADO, AL
+ 2004 BB 00 10		     13	 MOV BX, OFFSET MSJ
+ 2007 B1 18		     14	 MOV CL, OFFSET FIN-OFFSET MSJ
+			     15	 
+ 2009 E4 41		     16	POLL:IN AL, ESTADO
+ 200B 80 E0 01		     17	 AND AL, 1
+ 200E 75 F9		     18	 JNZ POLL
+			     19	 
+ 2010 8A 07		     20	 MOV AL, [BX]
+ 2012 E6 40		     21	 OUT HAND, AL
+ 2014 FF C3		     22	 INC BX
+ 2016 FE C9		     23	 DEC CL
+ 2018 75 EF		     24	 JNZ POLL
+ 201A F4		     25	 HLT
+			     26	 END
+
+
+ S I M B O L O S:
+
+ Nombre:	Tipo:		Valor:
+
+ HAND    	Number		  40h
+ ESTADO  	Number		  41h
+ MSJ     	Byte		1000h
+ FIN     	Byte		1018h
+ POLL    	Label		2009h

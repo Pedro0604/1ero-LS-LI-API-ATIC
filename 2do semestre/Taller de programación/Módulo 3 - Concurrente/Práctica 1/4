@@ -1,0 +1,82 @@
+programa cuatro
+procesos
+  proceso juntarFlores
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+  fin
+  
+  proceso juntarPapeles
+  comenzar
+    mientras HayPapelEnLaEsquina
+      tomarPapel
+  fin
+  
+  proceso recorrerAvFlores
+  comenzar
+    mientras PosCa<100
+      juntarFlores
+      mover
+    juntarFlores
+  fin
+  
+  proceso recorrerAvPapeles
+  comenzar
+    mientras PosCa<100
+      juntarPapeles
+      mover
+    juntarPapeles
+  fin
+  
+  proceso recorrerAreasImpares
+  comenzar
+    repetir 24
+      recorrerAvFlores
+      Pos(PosAv+1,1)
+    recorrerAvFlores
+  fin
+  
+  proceso recorrerAreasPares
+  comenzar
+    repetir 24
+      recorrerAvPapeles
+      Pos(PosAv+1,1)
+    recorrerAvPapeles
+  fin
+
+areas
+  area1: AreaP(1,1,25,100)
+  area2: AreaP(26,1,50,100)
+  area3: AreaP(51,1,75,100)
+  area4: AreaP(76,1,100,100)
+robots
+  robot impares
+  comenzar
+    recorrerAreasImpares
+    Pos(PosAv+26,1)
+    recorrerAreasImpares
+  fin
+  robot pares
+  comenzar
+    recorrerAreasPares
+    Pos(PosAv+26,1)
+    recorrerAreasPares
+  fin
+variables
+  robot1:impares
+  robot2:pares
+comenzar
+  AsignarArea(robot1,area1)
+  AsignarArea(robot1,area3)
+  AsignarArea(robot2,area2)
+  AsignarArea(robot2,area4)
+  Iniciar(robot1,1,1)
+  Iniciar(robot2,26,1)
+fin
+
+
+
+
+
+
+

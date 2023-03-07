@@ -1,0 +1,144 @@
+programa cuatro
+procesos
+  proceso limpiarEsquina(ES f:numero;ES p:numero)
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+      f:=f+1
+    mientras HayPapelEnLaEsquina
+      tomarPapel
+      p:=p+1
+  fin
+areas
+  ciudad: AreaPC(25,25,75,75)
+  areaFiscalizador: AreaP(1,1,1,1)
+  areaR1: AreaP(25,1,25,1)
+  areaR2: AreaP(30,1,30,1)
+  areaR3: AreaP(35,1,35,1)
+  areaR4: AreaP(40,1,40,1)
+robots
+  robot recolectores
+  variables
+    elegido,ganador:boolean
+    avOg,caOg,av,ca,f,p:numero
+  comenzar
+    f:=0
+    p:=0
+    avOg:=PosAv
+    caOg:=PosCa
+    repetir 10
+      RecibirMensaje(elegido,jefe)
+      si (elegido)
+        Random(av,25,75)
+        Random(ca,25,75)
+        Pos(av,ca)
+        limpiarEsquina(f,p)
+        Pos(avOg,caOg)
+        EnviarMensaje(V,jefe)
+    RecibirMensaje(ganador,jefe)
+    si (ganador)
+      Pos(50,50)
+  fin
+  robot fiscalizador
+  variables
+    nRec,c1,c2,c3,c4,max,recMax:numero
+    termino:boolean
+  comenzar
+    c1:=0
+    c2:=0
+    c3:=0
+    c4:=0
+    max:=-1
+    repetir 10
+      Random(nRec,1,4)
+      si (nRec=1)
+        EnviarMensaje(V,recolector1)
+        EnviarMensaje(F,recolector2)
+        EnviarMensaje(F,recolector3)
+        EnviarMensaje(F,recolector4)
+        c1:=c1+1
+        si (c1>max)
+          max:=c1
+          recMax:=1
+      sino
+        si (nRec=2)
+          EnviarMensaje(F,recolector1)
+          EnviarMensaje(V,recolector2)
+          EnviarMensaje(F,recolector3)
+          EnviarMensaje(F,recolector4)
+          c2:=c2+1
+          si (c2>max)
+            max:=c2
+            recMax:=2
+        sino
+          si (nRec=3)
+            EnviarMensaje(F,recolector1)
+            EnviarMensaje(F,recolector2)
+            EnviarMensaje(V,recolector3)
+            EnviarMensaje(F,recolector4)
+            c3:=c3+1
+            si (c3>max)
+              max:=c3
+              recMax:=3
+          sino
+            si (nRec=4)
+              EnviarMensaje(F,recolector1)
+              EnviarMensaje(F,recolector2)
+              EnviarMensaje(F,recolector3)
+              EnviarMensaje(V,recolector4)
+              c4:=c4+1
+              si (c4>max)
+                max:=c4
+                recMax:=4
+      RecibirMensaje(termino,*)
+    si (recMax=1)
+      EnviarMensaje(V,recolector1)
+      EnviarMensaje(F,recolector2)
+      EnviarMensaje(F,recolector3)
+      EnviarMensaje(F,recolector4)
+    sino
+      si (recMax=2)
+        EnviarMensaje(F,recolector1)
+        EnviarMensaje(V,recolector2)
+        EnviarMensaje(F,recolector3)
+        EnviarMensaje(F,recolector4)
+      sino
+        si (recMax=3)
+          EnviarMensaje(F,recolector1)
+          EnviarMensaje(F,recolector2)
+          EnviarMensaje(V,recolector3)
+          EnviarMensaje(F,recolector4)
+        sino
+          si (recMax=4)
+            EnviarMensaje(F,recolector1)
+            EnviarMensaje(F,recolector2)
+            EnviarMensaje(F,recolector3)
+            EnviarMensaje(V,recolector4)
+  fin
+variables
+  recolector1, recolector2, recolector3, recolector4:recolectores
+  jefe:fiscalizador
+comenzar
+  AsignarArea(recolector1,ciudad)
+  AsignarArea(recolector2,ciudad)
+  AsignarArea(recolector3,ciudad)
+  AsignarArea(recolector4,ciudad)
+  AsignarArea(recolector1,areaR1)
+  AsignarArea(recolector2,areaR2)
+  AsignarArea(recolector3,areaR3)
+  AsignarArea(recolector4,areaR4)
+  AsignarArea(jefe,areaFiscalizador)
+  Iniciar(recolector1,25,1)
+  Iniciar(recolector2,30,1)
+  Iniciar(recolector3,35,1)
+  Iniciar(recolector4,40,1)
+  Iniciar(jefe,1,1)
+fin
+
+
+
+
+
+
+
+

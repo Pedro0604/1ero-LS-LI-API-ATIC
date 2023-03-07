@@ -1,0 +1,104 @@
+
+								p gina: 1 
+
+ Listado Fuente: 15.LST
+ Programa Fuente en: 15.ASM
+ Fecha: Tue Sep 20 21:40:30 2022
+
+ ÚDir.ÚCodigo maquina	 Linea¿	ÚCodigo en lenguaje ensamble
+
+			      1	 PIC EQU 20H
+			      2	 IMR EQU 21H
+			      3	 TIMER EQU 10H
+			      4	 COMP EQU 11H
+			      5	 INT0 EQU 24H
+			      6	 INT1 EQU 25H
+			      7	
+			      8	ORG 40
+ 0028 00 31		      9	DW RUT_F10
+			     10	
+			     11	ORG 44
+ 002C 13 31		     12	DW RUT_TIMER
+			     13	
+			     14	
+			     15	ORG 1000H
+ 1000 49 4E 47 52 45 53	     16	 MSJ DB "INGRESE UN NUMERO: "
+ 1006 45 20 55 4E 20 4E
+ 100C 55 4D 45 52 4F 3A
+ 1012 20
+ 1013 49		     17	 NUM DB ?
+ 1014 0A		     18	 SALTO DB 0AH
+			     19	
+			     20	
+ 1015 BB 00 10		     21	INGRESE_UN_NUMERO:MOV BX, OFFSET MSJ
+ 1018 B0 13		     22	 MOV AL, OFFSET NUM-OFFSET MSJ
+ 101A CD 07		     23	 INT 7
+ 101C BB 13 10		     24	 MOV BX, OFFSET NUM
+ 101F CD 06		     25	 INT 6
+ 1021 C3		     26	 RET
+			     27	
+			     28	
+			     29	ORG 2000H
+ 2000 FA		     30	 CLI
+ 2001 B0 FE		     31	 MOV AL, 11111110B
+ 2003 E6 21		     32	 OUT IMR, AL
+ 2005 B0 0A		     33	 MOV AL, 10
+ 2007 E6 24		     34	 OUT INT0, AL
+ 2009 B0 0B		     35	 MOV AL, 11
+ 200B E6 25		     36	 OUT INT1, AL
+ 200D E8 15 10		     37	 CALL INGRESE_UN_NUMERO
+ 2010 FB		     38	 STI
+ 2011 E9 11 20		     39	LOOP: JMP LOOP
+			     40	
+			     41	
+			     42	ORG 3100H
+ 3100 FA		     43	RUT_F10:CLI
+ 3101 B0 FC		     44	 MOV AL, 11111100B
+ 3103 E6 21		     45	 OUT IMR, AL
+ 3105 B0 01		     46	 MOV AL, 1
+ 3107 E6 11		     47	 OUT COMP, AL
+ 3109 B0 20		     48	 MOV AL, PIC
+ 310B E6 20		     49	 OUT PIC, AL
+ 310D B0 00		     50	 MOV AL, 0
+ 310F E6 10		     51	 OUT TIMER, AL
+ 3111 FB		     52	 STI
+
+
+
+								p gina: 2 
+
+ 3112 CF		     53	 IRET
+			     54	
+			     55	
+ 3113 B0 02		     56	RUT_TIMER:MOV AL, 2
+ 3115 CD 07		     57	 INT 7
+ 3117 FE 0F		     58	 DEC BYTE PTR [BX]
+ 3119 80 3F 2F		     59	 CMP BYTE PTR [BX], 2FH
+ 311C 74 09		     60	 JZ TERMINO
+ 311E B0 20		     61	 MOV AL, PIC
+ 3120 E6 20		     62	 OUT PIC, AL
+ 3122 B0 00		     63	 MOV AL, 0
+ 3124 E6 10		     64	 OUT TIMER, AL
+ 3126 CF		     65	 IRET
+ 3127 F4		     66	TERMINO:HLT
+			     67	END
+
+
+ S I M B O L O S:
+
+ Nombre:	Tipo:		Valor:
+
+ PIC     	Number		  20h
+ IMR     	Number		  21h
+ TIMER   	Number		  10h
+ COMP    	Number		  11h
+ INT0    	Number		  24h
+ INT1    	Number		  25h
+ MSJ     	Byte		1000h
+ NUM     	Byte		1013h
+ SALTO   	Byte		1014h	No usado
+ INGRESE_	Label		1015h
+ LOOP    	Label		2011h
+ RUT_F10 	Label		3100h
+ RUT_TIME	Label		3113h
+ TERMINO 	Label		3127h

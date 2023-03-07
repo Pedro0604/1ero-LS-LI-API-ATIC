@@ -1,0 +1,169 @@
+programa tres_a
+procesos
+  proceso juntarPapeles(ES n:numero)
+  comenzar
+    mientras ((HayPapelEnLaEsquina) & (n>0))
+      tomarPapel
+      n:=n+-1
+  fin
+areas
+  av1: AreaP(1,1,1,100)
+  av2: AreaP(2,1,2,100)
+  av3: AreaP(3,1,3,100)
+  areaJ: AreaP(4,1,4,1)
+robots
+  robot papeleros
+  variables
+    id,n,caAct:numero
+    sigEtapa,sigue1,sigue2,sigue3:boolean
+  comenzar
+    sigue1:=V
+    sigue2:=V
+    sigue3:=V
+    RecibirMensaje(id,jefe)
+    caAct:=PosCa
+    mientras (caAct<100)
+      Random(n,1,5)
+      mientras ((n>0) & (caAct<100))
+        juntarPapeles(n)
+        si (n>0)
+          mover
+        caAct:=PosCa
+      si (id=1)
+        EnviarMensaje(V,p2)
+        EnviarMensaje(V,p3)
+        EnviarMensaje(sigue1,p2)
+        EnviarMensaje(sigue1,p3)
+        RecibirMensaje(sigEtapa,p2)
+        RecibirMensaje(sigEtapa,p3)
+        RecibirMensaje(sigue2,p2)
+        RecibirMensaje(sigue3,p3)
+      sino
+        si (id=2)
+          EnviarMensaje(V,p1)
+          EnviarMensaje(V,p3)
+          EnviarMensaje(sigue2,p1)
+          EnviarMensaje(sigue2,p3)
+          RecibirMensaje(sigEtapa,p1)
+          RecibirMensaje(sigEtapa,p3)
+          RecibirMensaje(sigue1,p1)
+          RecibirMensaje(sigue3,p3)
+        sino
+          EnviarMensaje(V,p1)
+          EnviarMensaje(V,p2)
+          EnviarMensaje(sigue3,p1)
+          EnviarMensaje(sigue3,p2)
+          RecibirMensaje(sigEtapa,p1)
+          RecibirMensaje(sigEtapa,p2)
+          RecibirMensaje(sigue1,p1)
+          RecibirMensaje(sigue2,p2)
+      caAct:=PosCa
+    si (n=0)
+      Random(n,1,5)
+    mientras (HayPapelEnLaEsquina)
+      mientras ((n>0)&(HayPapelEnLaEsquina))
+        juntarPapeles(n)
+      si (id=1)
+        EnviarMensaje(V,p2)
+        EnviarMensaje(V,p3)
+        EnviarMensaje(sigue1,p2)
+        EnviarMensaje(sigue1,p3)
+        RecibirMensaje(sigEtapa,p2)
+        RecibirMensaje(sigEtapa,p3)
+        RecibirMensaje(sigue2,p2)
+        RecibirMensaje(sigue3,p3)
+      sino
+        si (id=2)
+          EnviarMensaje(V,p1)
+          EnviarMensaje(V,p3)
+          EnviarMensaje(sigue2,p1)
+          EnviarMensaje(sigue2,p3)
+          RecibirMensaje(sigEtapa,p1)
+          RecibirMensaje(sigEtapa,p3)
+          RecibirMensaje(sigue1,p1)
+          RecibirMensaje(sigue3,p3)
+        sino
+          EnviarMensaje(V,p1)
+          EnviarMensaje(V,p2)
+          EnviarMensaje(sigue3,p1)
+          EnviarMensaje(sigue3,p2)
+          RecibirMensaje(sigEtapa,p1)
+          RecibirMensaje(sigEtapa,p2)
+          RecibirMensaje(sigue1,p1)
+          RecibirMensaje(sigue2,p2)
+      Random(n,1,5)
+    Informar(id)
+    mientras (sigue1 | sigue2 | sigue3)
+      si (id=1)
+        sigue1:=F
+        EnviarMensaje(V,p2)
+        EnviarMensaje(V,p3)
+        EnviarMensaje(sigue1,p2)
+        EnviarMensaje(sigue1,p3)
+        RecibirMensaje(sigEtapa,p2)
+        RecibirMensaje(sigEtapa,p3)
+        RecibirMensaje(sigue2,p2)
+        RecibirMensaje(sigue3,p3)
+      sino
+        si (id=2)
+          sigue2:=F
+          EnviarMensaje(V,p1)
+          EnviarMensaje(V,p3)
+          EnviarMensaje(sigue2,p1)
+          EnviarMensaje(sigue2,p3)
+          RecibirMensaje(sigEtapa,p1)
+          RecibirMensaje(sigEtapa,p3)
+          RecibirMensaje(sigue1,p1)
+          RecibirMensaje(sigue3,p3)
+        sino
+          sigue3:=F
+          EnviarMensaje(V,p1)
+          EnviarMensaje(V,p2)
+          EnviarMensaje(sigue3,p1)
+          EnviarMensaje(sigue3,p2)
+          RecibirMensaje(sigEtapa,p1)
+          RecibirMensaje(sigEtapa,p2)
+          RecibirMensaje(sigue1,p1)
+          RecibirMensaje(sigue2,p2)
+  fin
+  robot fiscalizador
+  variables
+    id:numero
+  comenzar
+    EnviarMensaje(1,p1)
+    EnviarMensaje(2,p2)
+    EnviarMensaje(3,p3)
+  fin
+variables
+  p1,p2,p3:papeleros
+  jefe:fiscalizador
+comenzar
+  AsignarArea(p1,av1)
+  AsignarArea(p2,av2)
+  AsignarArea(p3,av3)
+  AsignarArea(jefe,areaJ)
+  Iniciar(p1,1,1)
+  Iniciar(p2,2,1)
+  Iniciar(p3,3,1)
+  Iniciar(jefe,4,1)
+fin
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

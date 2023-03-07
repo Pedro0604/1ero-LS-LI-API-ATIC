@@ -1,0 +1,121 @@
+programa cuatro
+procesos
+  proceso tarea1
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+  fin
+  proceso tarea2
+  comenzar
+    mientras HayPapelEnLaEsquina
+      tomarPapel
+  fin
+  proceso tarea3
+  comenzar
+    mientras HayFlorEnLaBolsa
+      depositarFlor
+    mientras HayPapelEnLaBolsa
+      depositarPapel
+  fin
+areas
+  areaInicio: AreaC(1,1,3,1)
+  cuadranteTareas: AreaPC(2,2,100,100)
+robots
+  robot trabajadores
+  variables
+    tarea,id,avNueva,caNueva,avAnt,caAnt:numero
+    sigue:boolean
+  comenzar
+    avAnt:=PosAv
+    caAnt:=PosCa
+    BloquearEsquina(avAnt,caAnt)
+    sigue:=V
+    RecibirMensaje(id,jefe)
+    mientras (sigue)
+      RecibirMensaje(tarea,jefe)
+      si (tarea<>4)
+        RecibirMensaje(avNueva,jefe)
+        RecibirMensaje(caNueva,jefe)
+        BloquearEsquina(avNueva,caNueva)
+        Pos(avNueva,caNueva)
+        LiberarEsquina(avAnt,caAnt)
+        avAnt:=avNueva
+        caAnt:=caNueva
+        si (tarea=1)
+          tarea1
+        sino
+          si (tarea=2)
+            tarea2
+          sino
+            tarea3
+      sino
+        sigue:=F
+      EnviarMensaje(V,jefe)
+  fin
+  robot jefes
+  variables
+    id,tarea,av,ca,cantTareas:numero
+    terminoTarea,sigueT1,sigueT2:boolean
+  comenzar
+    sigueT1:=V
+    sigueT2:=V
+    cantTareas:=0
+    EnviarMensaje(1,t1)
+    EnviarMensaje(2,t2)
+    mientras ((cantTareas<10)&(sigueT1 | sigueT2))
+      Random(tarea,1,4)
+      cantTareas:=cantTareas+1
+      Random(id,1,2)
+      si(id=1)
+        si (sigueT1)
+          EnviarMensaje(tarea,t1)
+          si (tarea<>4)
+            Random(av,2,100)
+            Random(ca,2,100)
+            EnviarMensaje(av,t1)
+            EnviarMensaje(ca,t1)
+          sino
+            sigueT1:=F
+          RecibirMensaje(terminoTarea,t1)
+      sino
+        si (sigueT2)
+          EnviarMensaje(tarea,t2)
+          si (tarea<>4)
+            Random(av,2,100)
+            Random(ca,2,100)
+            EnviarMensaje(av,t2)
+            EnviarMensaje(ca,t2)
+          sino
+            sigueT2:=F
+          RecibirMensaje(terminoTarea,t2)
+    si (sigueT1)
+      EnviarMensaje(4,t1)
+      RecibirMensaje(terminoTarea,t1)
+    si (sigueT2)
+      EnviarMensaje(4,t2)
+      RecibirMensaje(terminoTarea,t2)
+  fin
+variables
+  t1,t2:trabajadores
+  jefe:jefes
+comenzar
+  AsignarArea(t1,areaInicio)
+  AsignarArea(t2,areaInicio)
+  AsignarArea(t1,cuadranteTareas)
+  AsignarArea(t2,cuadranteTareas)
+  AsignarArea(jefe,areaInicio)
+  Iniciar(t1,2,1)
+  Iniciar(t2,3,1)
+  Iniciar(jefe,1,1)
+fin
+
+
+
+
+
+
+
+
+
+
+

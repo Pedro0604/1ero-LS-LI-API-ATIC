@@ -1,0 +1,45 @@
+ORG 1000H
+ TAB1 DW ?,?,?,?,?,?,?,?,?,?,?,?
+ TAB2 DW ?,?,?,?,?,?,?,?,?,?,?,?
+ TAB3 DW ?,?,?,?,?,?,?,?,?,?,?,?
+ DIR3 DW ?
+ BIEN DB ?,?,?,?,?,?
+ MAL DB ?,?,?,?,?,?
+ CONT DB 6
+ CARRY DB 0
+ORG 2000H
+ MOV CX, OFFSET TAB1
+ MOV DX, OFFSET TAB2
+ MOV DIR3, OFFSET TAB3
+LOOP: MOV BX, CX
+  MOV AX, [BX]
+  MOV BX, DX
+  ADD AX, [BX]
+  MOV BX, DIR3
+  MOV [BX], AX
+  JNC NOCARRY
+   MOV CARRY, 1
+  NOCARRY:  ADD CX, 2
+  ADD DX, 2
+  ADD DIR3, 2
+  MOV BX, CX
+  MOV AX, [BX]
+  MOV BX, DX
+  ADD AX, [BX]
+  JO M
+  ADD AX, CARRY
+  JNO B
+  M: MOV MAL, 0FFH
+  JMP STO
+  B: MOV BIEN, 0FFH
+  STO: MOV BX, DIR3
+  MOV [BX], AX
+  ADD CX, 2
+  ADD DX, 2
+  ADD DIR3, 2
+  INC BIEN
+  INC MAL
+  DEC CONT
+ JNZ LOOP
+ HLT 
+END

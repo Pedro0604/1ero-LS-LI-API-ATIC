@@ -1,0 +1,64 @@
+programa tres
+procesos
+  proceso verEsquina(ES f:numero;ES p:numero)
+  variables
+    auxP:auxF:numero
+  comenzar
+    auxP:=0
+    auxF:=0
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+      auxF:=auxF+1
+    mientras HayPapelEnLaEsquina
+      tomarPapel
+      auxP:=auxP+1
+    repetir auxF
+      depositarFlor
+    repetir auxP
+      depositarPapel
+    f:=f+auxF
+    p:=p+auxP
+  fin
+  proceso escalon(E lado:numero;ES cantS:numero)
+  variables
+    f,p:numero
+  comenzar
+    f:=0
+    p:=0
+    repetir lado
+      verEsquina(f,p)
+      mover
+    derecha
+    repetir lado
+      verEsquina(f,p)
+      mover
+    repetir 3
+      derecha
+    si (f+1=p)
+      cantS:=cantS+1
+  fin
+areas
+  ciudad: AreaC(1,1,100,100)
+robots
+  robot tipo1
+  variables
+    cantSuperaPorUno,lado:numero
+  comenzar
+    cantSuperaPorUno:=0
+    lado:=1
+    repetir 4
+      escalon(lado,cantSuperaPorUno)
+      lado:=lado+1
+    Informar(cantSuperaPorUno)
+  fin
+
+variables
+  robot1,robot2,robot3:tipo1
+comenzar
+  AsignarArea(robot1,ciudad)
+  AsignarArea(robot2,ciudad)
+  AsignarArea(robot3,ciudad)
+  Iniciar(robot1,12,14)
+  Iniciar(robot2,17,10)
+  Iniciar(robot3,22,6)
+fin

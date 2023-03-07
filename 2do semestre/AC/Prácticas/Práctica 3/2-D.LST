@@ -1,0 +1,105 @@
+
+								p gina: 1 
+
+ Listado Fuente: 2-D.LST
+ Programa Fuente en: 2-D.ASM
+ Fecha: Tue Sep 20 22:48:20 2022
+
+ ÚDir.ÚCodigo maquina	 Linea¿	ÚCodigo en lenguaje ensamble
+
+			      1	EOI EQU 20H
+			      2	IMR EQU 21H
+			      3	INT0 EQU 24H
+			      4	
+			      5	PA EQU 30H
+			      6	PB EQU 31H
+			      7	CA EQU 32H
+			      8	CB EQU 33H
+			      9	
+			     10	
+			     11	ORG 40
+ 0028 00 30		     12	 DW RUT_F10
+			     13	
+			     14	
+			     15	ORG 1000H
+ 1000 49 4E 47 52 45 53	     16	 MSJ DB "INGRESE UN CARACTER:"
+ 1006 45 20 55 4E 20 43
+ 100C 41 52 41 43 54 45
+ 1012 52 3A
+ 1014 49		     17	 CAR DB ?
+			     18	
+			     19	
+			     20	ORG 2000H
+ 2000 B0 00		     21	 MOV AL, 0
+ 2002 E6 33		     22	 OUT CB, AL
+ 2004 B0 FD		     23	 MOV AL, 11111101B
+ 2006 E6 32		     24	 OUT CA, AL
+ 2008 E4 30		     25	 IN AL, PA
+ 200A 80 E0 FD		     26	 AND AL, 11111101B
+ 200D E6 30		     27	 OUT PA, AL
+ 200F BB 14 10		     28	 MOV BX, OFFSET CAR
+ 2012 53		     29	 PUSH BX
+ 2013 B1 00		     30	 MOV CL, 0
+ 2015 FA		     31	CLI
+ 2016 B0 FE		     32	 MOV AL, 11111110B
+ 2018 E6 21		     33	 OUT IMR, AL
+ 201A B0 0A		     34	 MOV AL, 10
+ 201C E6 24		     35	 OUT INT0, AL
+ 201E FB		     36	STI
+ 201F BB 00 10		     37	LOOP:MOV BX, OFFSET MSJ
+ 2022 B0 14		     38	 MOV AL, OFFSET CAR-OFFSET MSJ
+ 2024 CD 07		     39	 INT 7
+ 2026 5B		     40	 POP BX
+ 2027 CD 06		     41	 INT 6
+ 2029 FE C1		     42	 INC CL
+ 202B FF C3		     43	 INC BX
+ 202D 53		     44	 PUSH BX
+ 202E E9 1F 20		     45	JMP LOOP
+			     46	
+			     47	
+			     48	ORG 3000H
+ 3000 BB 14 10		     49	RUT_F10:MOV BX, OFFSET CAR
+ 3003 E4 30		     50	POLL:IN AL, PA
+ 3005 80 E0 01		     51	 AND AL, 1
+ 3008 75 F9		     52	 JNZ POLL
+
+
+
+								p gina: 2 
+
+			     53	
+ 300A 8A 07		     54	 MOV AL, [BX]
+ 300C E6 31		     55	 OUT PB, AL
+			     56	 
+ 300E E4 30		     57	 IN AL, PA
+ 3010 80 C8 02		     58	 OR AL, 00000010B
+ 3013 E6 30		     59	 OUT PA, AL
+			     60	
+ 3015 E4 30		     61	 IN AL, PA
+ 3017 80 E0 FD		     62	 AND AL, 11111101B
+ 301A E6 30		     63	 OUT PA, AL
+			     64	 
+ 301C FF C3		     65	 INC BX
+ 301E FE C9		     66	 DEC CL
+ 3020 75 E1		     67	 JNZ POLL
+			     68	
+ 3022 F4		     69	 HLT
+			     70	 END
+
+
+ S I M B O L O S:
+
+ Nombre:	Tipo:		Valor:
+
+ EOI     	Number		  20h	No usado
+ IMR     	Number		  21h
+ INT0    	Number		  24h
+ PA      	Number		  30h
+ PB      	Number		  31h
+ CA      	Number		  32h
+ CB      	Number		  33h
+ MSJ     	Byte		1000h
+ CAR     	Byte		1014h
+ LOOP    	Label		201Fh
+ RUT_F10 	Label		3000h
+ POLL    	Label		3003h

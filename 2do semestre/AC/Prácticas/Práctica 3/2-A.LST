@@ -1,0 +1,50 @@
+
+								p gina: 1 
+
+ Listado Fuente: 2-A.LST
+ Programa Fuente en: 2-A.ASM
+ Fecha: Tue Sep 20 22:08:48 2022
+
+ ÚDir.ÚCodigo maquina	 Linea¿	ÚCodigo en lenguaje ensamble
+
+			      1	PA EQU 30H
+			      2	PB EQU 31H
+			      3	CA EQU 32H
+			      4	CB EQU 33H
+			      5	
+			      6	
+			      7	ORG 1000H
+ 1000 41		      8	LETRA_A DB "A"
+			      9	
+			     10	
+			     11	ORG 2000H
+ 2000 B0 00		     12	 MOV AL, 0
+ 2002 E6 33		     13	 OUT CB, AL          ;PB TODO SALIDA
+ 2004 B0 FD		     14	 MOV AL, 11111101B   ;STROBE: OUT  BUSY: IN
+ 2006 E6 32		     15	 OUT CA, AL
+ 2008 E4 30		     16	 IN AL, PA
+ 200A 80 E0 FD		     17	 AND AL, 11111101B   ;FUERZ0 STROBE A 0
+ 200D E6 30		     18	 OUT PA, AL
+			     19	
+ 200F E4 30		     20	POLL:IN AL, PA
+ 2011 80 E0 01		     21	 AND AL, 00000001B    ;VEO EL BIT DE BUSY
+ 2014 75 F9		     22	 JNZ POLL
+ 2016 8A 06 00 10	     23	 MOV AL, LETRA_A
+ 201A E6 31		     24	 OUT PB, AL
+ 201C E4 30		     25	 IN AL, PA
+ 201E 80 C8 02		     26	 OR AL, 00000010B   ;FUERZ0 STROBE A 1
+ 2021 E6 30		     27	 OUT PA, AL
+ 2023 F4		     28	 HLT
+			     29	 END
+
+
+ S I M B O L O S:
+
+ Nombre:	Tipo:		Valor:
+
+ PA      	Number		  30h
+ PB      	Number		  31h
+ CA      	Number		  32h
+ CB      	Number		  33h
+ LETRA_A 	Byte		1000h
+ POLL    	Label		200Fh

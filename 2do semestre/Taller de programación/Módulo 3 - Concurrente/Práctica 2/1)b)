@@ -1,0 +1,50 @@
+programa uno
+procesos
+  proceso juntarFlores(ES f:numero)
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+      f:=f+1
+  fin
+  proceso recorrerAvenida(ES f:numero)
+  comenzar
+    repetir 9
+      juntarFlores(f)
+      mover
+    juntarFlores(f)
+  fin
+  
+areas
+  ciudad: AreaC(1,1,100,100)
+robots
+  robot competidores
+  variables
+    inicio,f:numero
+  comenzar
+    recorrerAvenida(f)
+    EnviarMensaje(f,jefe)
+  fin
+  robot jefes
+  variables
+    f1,f2:numero
+  comenzar
+    RecibirMensaje(f1,*)
+    RecibirMensaje(f2,*)
+    si(f1>f2)
+      Informar(f1+-f2)
+    sino
+      Informar(f2+-f1)
+  fin
+variables
+  competidor1, competidor2:competidores
+  jefe:jefes
+comenzar
+  AsignarArea(competidor1,ciudad)
+  AsignarArea(competidor2,ciudad)
+  AsignarArea(jefe,ciudad)
+  Iniciar(competidor1,1,1)
+  Iniciar(competidor2,2,11)
+  Iniciar(jefe,2,1)
+fin
+
+

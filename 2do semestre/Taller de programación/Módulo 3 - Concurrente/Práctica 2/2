@@ -1,0 +1,83 @@
+programa dos
+procesos
+  proceso esquina (ES p:numero; ES f:numero)
+  comenzar
+    mientras HayPapelEnLaEsquina
+      tomarPapel
+      p:=p+1
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+      f:=f+1
+  fin
+  
+  proceso escalon(E alto:numero;ES cantE:numero)
+  variables
+    f,p:numero
+  comenzar
+    f:=0
+    p:=0
+    repetir alto
+      esquina(p,f)
+      mover
+    derecha
+    esquina(p,f)
+    mover
+    esquina(p,f)
+    repetir 3
+      derecha
+    si f>p
+      cantE:=cantE+1
+  fin
+  
+  proceso escalera(E alto:numero;ES cantE:numero)
+  variables
+    f,p:numero
+  comenzar
+    cantE:=0
+    repetir 4
+      escalon(alto,cantE)
+  fin
+areas
+  ciudad: AreaC(1,1,100,100)
+robots
+  robot constructores
+  variables
+    alto,cantE:numero
+  comenzar
+    Random(alto,1,5)
+    escalera(alto,cantE)
+    EnviarMensaje(cantE,jefe)
+  fin
+  robot jefes
+  variables
+    cantE,cantETotal:numero
+  comenzar
+    cantETotal:=0
+    RecibirMensaje(cantE,*)
+    cantETotal:=cantETotal+cantE
+    RecibirMensaje(cantE,*)
+    cantETotal:=cantETotal+cantE
+    RecibirMensaje(cantE,*)
+    cantETotal:=cantETotal+cantE
+    Informar(cantETotal)
+  fin
+variables
+  constructor1, constructor2, constructor3:constructores
+  jefe:jefes
+comenzar
+  AsignarArea(constructor1,ciudad)
+  AsignarArea(constructor2,ciudad)
+  AsignarArea(constructor3,ciudad)
+  AsignarArea(jefe,ciudad)
+  Iniciar(constructor1,2,1)
+  Iniciar(constructor3,7,1)
+  Iniciar(constructor2,12,1)
+  Iniciar(jefe,1,1)
+fin
+
+
+
+
+
+
+

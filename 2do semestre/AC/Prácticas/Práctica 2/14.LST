@@ -1,0 +1,113 @@
+
+								p gina: 1 
+
+ Listado Fuente: 14.LST
+ Programa Fuente en: 14.ASM
+ Fecha: Tue Sep 20 21:23:28 2022
+
+ ÚDir.ÚCodigo maquina	 Linea¿	ÚCodigo en lenguaje ensamble
+
+			      1	 PIC EQU 20H
+			      2	 IMR EQU 21H
+			      3	 TIMER EQU 10H
+			      4	 COMP EQU 11H
+			      5	 INT0 EQU 24H
+			      6	 INT1 EQU 25H
+			      7	
+			      8	
+			      9	ORG 20
+ 0014 15 20		     10	 DW RUT_F10         ;RUT F10 EN LA DIR 3000H
+			     11	
+			     12	ORG 24
+ 0018 32 20		     13	 DW RUT_TIMER         ;RUT TIMER EN LA DIR 3000H
+			     14	
+			     15	ORG 1000H
+ 1000 30 30		     16	 CONT DB 30H, 30H
+ 1002 0A		     17	 SALTO DB 0AH
+			     18	
+			     19	
+			     20	ORG 2000H
+ 2000 FA		     21	 CLI
+ 2001 B0 FE		     22	 MOV AL, 11111110B
+ 2003 E6 21		     23	 OUT IMR, AL      ;F10 ACTIVADO
+ 2005 B0 01		     24	 MOV AL, 1
+ 2007 E6 11		     25	 OUT COMP, AL     ;COMPARA CON 1SEG
+ 2009 B0 05		     26	 MOV AL, 5
+ 200B E6 24		     27	 OUT INT0, AL     ;F10 EN LA DIR 5*4=20
+ 200D B0 06		     28	 MOV AL, 6
+ 200F E6 25		     29	 OUT INT1, AL     ;TIMER EN LA DIR 6*4=24
+ 2011 FB		     30	 STI
+ 2012 E9 12 20		     31	LOOP: JMP LOOP
+			     32	
+			     33	
+			     34	
+ 2015 E4 21		     35	RUT_F10:IN AL, IMR
+ 2017 80 E0 02		     36	 AND AL, 00000010B  ;SI ESTA ANDANDO (BIT1=0) LO
+				 DESACTIVA, SINO LO ACTIVA
+ 201A FA		     37	CLI
+ 201B 74 07		     38	 JZ DET
+ 201D B0 FC		     39	 MOV AL, 11111100B
+ 201F E6 21		     40	 OUT IMR, AL        ;F10 Y TIMER ACTIVADOS
+ 2021 E9 28 20		     41	 JMP FIN
+ 2024 B0 FE		     42	DET:MOV AL, 11111110B
+ 2026 E6 21		     43	 OUT IMR, AL        ;F10 ACTIVADO, TIMER DESACTI
+				VADO
+ 2028 B0 20		     44	FIN:MOV AL, PIC
+ 202A E6 20		     45	 OUT PIC, AL
+ 202C B0 00		     46	 MOV AL, 0
+ 202E E6 10		     47	 OUT TIMER, AL    ;CONTADOR EN 0
+ 2030 FB		     48	STI
+ 2031 CF		     49	 IRET
+			     50	
+			     51	
+ 2032 50		     52	RUT_TIMER:PUSH AX
+ 2033 BB 01 10		     53	 MOV BX, OFFSET CONT+1
+
+
+
+								p gina: 2 
+
+ 2036 80 3F 39		     54	 CMP BYTE PTR [BX], 39H
+ 2039 74 05		     55	 JZ AUMENTARC2
+ 203B FE 07		     56	 INC BYTE PTR [BX]
+ 203D E9 4C 20		     57	 JMP PRINT
+			     58	
+ 2040 C6 07 30		     59	AUMENTARC2:MOV BYTE PTR [BX], 30H
+ 2043 FF CB		     60	 DEC BX
+ 2045 80 3F 32		     61	 CMP BYTE PTR [BX], 32H
+ 2048 74 13		     62	 JZ TERMINO
+ 204A FE 07		     63	 INC BYTE PTR [BX]
+			     64	
+ 204C BB 00 10		     65	PRINT:MOV BX, OFFSET CONT
+ 204F B0 02		     66	 MOV AL, OFFSET SALTO-OFFSET CONT
+ 2051 CD 07		     67	 INT 7
+ 2053 B0 20		     68	 MOV AL, PIC
+ 2055 E6 20		     69	 OUT PIC, AL
+ 2057 B0 00		     70	 MOV AL, 0
+ 2059 E6 10		     71	 OUT TIMER, AL
+ 205B 58		     72	 POP AX
+ 205C CF		     73	 IRET
+ 205D F4		     74	TERMINO:HLT
+			     75	END
+
+
+ S I M B O L O S:
+
+ Nombre:	Tipo:		Valor:
+
+ PIC     	Number		  20h
+ IMR     	Number		  21h
+ TIMER   	Number		  10h
+ COMP    	Number		  11h
+ INT0    	Number		  24h
+ INT1    	Number		  25h
+ CONT    	Byte		1000h
+ SALTO   	Byte		1002h
+ LOOP    	Label		2012h
+ RUT_F10 	Label		2015h
+ DET     	Label		2024h
+ FIN     	Label		2028h
+ RUT_TIME	Label		2032h
+ AUMENTAR	Label		2040h
+ PRINT   	Label		204Ch
+ TERMINO 	Label		205Dh

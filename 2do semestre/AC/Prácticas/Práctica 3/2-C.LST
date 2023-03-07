@@ -1,0 +1,79 @@
+
+								p gina: 1 
+
+ Listado Fuente: 2-C.LST
+ Programa Fuente en: 2-C.ASM
+ Fecha: Tue Sep 20 22:37:55 2022
+
+ ÚDir.ÚCodigo maquina	 Linea¿	ÚCodigo en lenguaje ensamble
+
+			      1	PA EQU 30H
+			      2	PB EQU 31H
+			      3	CA EQU 32H
+			      4	CB EQU 33H
+			      5	
+			      6	
+			      7	ORG 1000H
+ 1000 49 4E 47 52 45 53	      8	 MSJ DB "INGRESE UN CARACTER:"
+ 1006 45 20 55 4E 20 43
+ 100C 41 52 41 43 54 45
+ 1012 52 3A
+ 1014 49 4E 47 52 45	      9	 CAR DB ?, ?, ?, ?, ?
+			     10	
+			     11	
+			     12	ORG 2000H
+ 2000 B0 00		     13	 MOV AL, 0
+ 2002 E6 33		     14	 OUT CB, AL
+ 2004 B0 FD		     15	 MOV AL, 11111101B
+ 2006 E6 32		     16	 OUT CA, AL
+ 2008 E4 30		     17	 IN AL, PA
+ 200A 80 E0 FD		     18	 AND AL, 11111101B
+ 200D E6 30		     19	 OUT PA, AL
+ 200F BB 14 10		     20	 MOV BX, OFFSET CAR
+ 2012 53		     21	 PUSH BX
+ 2013 B1 05		     22	 MOV CL, 5
+			     23	 
+ 2015 E4 30		     24	POLL:IN AL, PA
+ 2017 80 E0 01		     25	 AND AL, 1
+ 201A 75 F9		     26	 JNZ POLL
+ 201C BB 00 10		     27	 MOV BX, OFFSET MSJ
+ 201F B0 14		     28	 MOV AL, OFFSET CAR-OFFSET MSJ
+ 2021 CD 07		     29	 INT 7
+ 2023 5B		     30	 POP BX
+ 2024 CD 06		     31	 INT 6
+ 2026 8A 07		     32	 MOV AL, [BX]
+ 2028 E6 31		     33	 OUT PB, AL
+			     34	 
+ 202A E4 30		     35	 IN AL, PA
+ 202C 80 C8 02		     36	 OR AL, 00000010B
+ 202F E6 30		     37	 OUT PA, AL
+			     38	
+ 2031 E4 30		     39	 IN AL, PA
+ 2033 80 E0 FD		     40	 AND AL, 11111101B
+ 2036 E6 30		     41	 OUT PA, AL
+			     42	 
+ 2038 FF C3		     43	 INC BX
+ 203A 53		     44	 PUSH BX
+ 203B FE C9		     45	 DEC CL
+ 203D 75 D6		     46	 JNZ POLL
+			     47	
+ 203F F4		     48	 HLT
+			     49	 END
+
+
+ S I M B O L O S:
+
+
+
+								p gina: 2 
+
+
+ Nombre:	Tipo:		Valor:
+
+ PA      	Number		  30h
+ PB      	Number		  31h
+ CA      	Number		  32h
+ CB      	Number		  33h
+ MSJ     	Byte		1000h
+ CAR     	Byte		1014h
+ POLL    	Label		2015h

@@ -1,0 +1,141 @@
+programa seis_a
+procesos
+  proceso juntarFlores
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+  fin
+  proceso ladoLibreF
+  comenzar
+    repetir 6
+      juntarFlores
+      mover
+    juntarFlores
+  fin
+  proceso ladoBloqueadoF(E n:numero)
+  comenzar
+    repetir n
+      juntarFlores
+      mover
+    juntarFlores
+    si (PosCa = 7)
+      BloquearEsquina(PosAv+1,7)
+    si (PosAv = 7)
+      BloquearEsquina(7,PosCa+-1)
+    mover
+    juntarFlores
+    mover
+    si (PosCa = 7)
+      LiberarEsquina(PosAv+-1,7)
+    si (PosAv = 7)
+      LiberarEsquina(7,PosCa+1)
+    repetir 6+-n+-2
+      juntarFlores
+      mover
+    juntarFlores
+  fin
+  proceso cuadranteF
+  comenzar
+    ladoLibreF
+    derecha
+    ladoBloqueadoF(2)
+    derecha
+    ladoBloqueadoF(1)
+    derecha
+    ladoLibreF
+    derecha
+  fin
+  
+  proceso juntarPapeles
+  comenzar
+    mientras HayPapelEnLaEsquina
+      tomarPapel
+  fin
+  proceso ladoLibreP
+  comenzar
+    repetir 10
+      juntarPapeles
+      mover
+    juntarPapeles
+  fin
+  proceso ladoBloqueadoP(E n:numero)
+  comenzar
+    repetir n
+      juntarPapeles
+      mover
+    juntarPapeles
+    si (PosCa = 7)
+      BloquearEsquina(PosAv+1,7)
+    si (PosAv = 7)
+      BloquearEsquina(7,PosCa+-1)
+    mover
+    juntarPapeles
+    mover
+    si (PosCa = 7)
+      LiberarEsquina(PosAv+-1,7)
+    si (PosAv = 7)
+      LiberarEsquina(7,PosCa+1)
+    repetir 10+-n+-2
+      juntarPapeles
+      mover
+    juntarPapeles
+  fin
+  proceso cuadranteP
+  comenzar
+    ladoLibreP
+    derecha
+    ladoBloqueadoP(2)
+    derecha
+    ladoBloqueadoP(1)
+    derecha
+    ladoLibreP
+    derecha
+  fin
+
+  proceso cuadranteFyP
+  comenzar
+    repetir 4
+      repetir 7
+        juntarPapeles
+        mover
+      juntarPapeles
+      derecha
+  fin
+
+areas
+  ciudad: AreaC(1,1,100,100)
+robots
+  robot f
+  comenzar
+    cuadranteF
+  fin
+  robot fyp
+  comenzar
+    cuadranteFyP
+  fin
+  robot p
+  comenzar
+    cuadranteP
+  fin
+
+variables
+  r1:f
+  r2:fyp
+  r3:p
+comenzar
+  AsignarArea(r1,ciudad)
+  AsignarArea(r2,ciudad)
+  AsignarArea(r3,ciudad)
+  Iniciar(r1,2,2)
+  Iniciar(r2,5,5)
+  Iniciar(r3,9,9)
+fin
+
+
+
+
+
+
+
+
+

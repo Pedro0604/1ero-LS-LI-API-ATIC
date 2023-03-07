@@ -1,0 +1,80 @@
+
+								p gina: 1 
+
+ Listado Fuente: 3-C.LST
+ Programa Fuente en: 3-C.ASM
+ Fecha: Wed Sep 21 12:06:07 2022
+
+ ÚDir.ÚCodigo maquina	 Linea¿	ÚCodigo en lenguaje ensamble
+
+			      1	EOI EQU 20H
+			      2	IMR EQU 21H
+			      3	INT2 EQU 26H
+			      4	HAND EQU 40H
+			      5	EST EQU 41H
+			      6	
+			      7	
+			      8	ORG 40
+ 0028 00 30		      9	 DW RUT_HND
+			     10	
+			     11	
+			     12	ORG 1000H
+ 1000 55 4E 49 56 45 52	     13	 MSJ DB "UNIVERSIDAD NACIONAL DE LA PLATA."
+ 1006 53 49 44 41 44 20
+ 100C 4E 41 43 49 4F 4E
+ 1012 41 4C 20 44 45 20
+ 1018 4C 41 20 50 4C 41
+ 101E 54 41 2E
+ 1021 55		     14	 FIN DB ?
+			     15	
+			     16	
+			     17	ORG 2000H
+ 2000 B0 80		     18	 MOV AL, 80H
+ 2002 E6 41		     19	 OUT EST, AL
+ 2004 BB 00 10		     20	 MOV BX, OFFSET MSJ
+ 2007 B1 21		     21	 MOV CL, OFFSET FIN-OFFSET MSJ
+ 2009 FA		     22	CLI
+ 200A B0 FB		     23	 MOV AL, 11111011B
+ 200C E6 21		     24	 OUT IMR, AL
+ 200E B0 0A		     25	 MOV AL, 10
+ 2010 E6 26		     26	 OUT INT2, AL
+ 2012 FB		     27	STI
+ 2013 E9 13 20		     28	LOOP:JMP LOOP
+			     29	
+			     30	ORG 3000H
+ 3000 50		     31	RUT_HND:PUSH AX
+ 3001 8A 07		     32	 MOV AL, [BX]
+ 3003 E6 40		     33	 OUT HAND, AL
+ 3005 FF C3		     34	 INC BX
+ 3007 FE C9		     35	 DEC CL
+ 3009 74 06		     36	 JZ TERMINO
+ 300B B0 20		     37	 MOV AL, EOI
+ 300D E6 20		     38	 OUT EOI, AL
+ 300F 58		     39	 POP AX
+ 3010 CF		     40	 IRET
+ 3011 E4 41		     41	TERMINO:IN AL, EST
+ 3013 80 E0 7F		     42	 AND AL, 01111111B
+ 3016 E6 41		     43	 OUT EST, AL
+ 3018 F4		     44	 HLT
+			     45	 END
+
+
+ S I M B O L O S:
+
+ Nombre:	Tipo:		Valor:
+
+
+
+								p gina: 2 
+
+
+ EOI     	Number		  20h
+ IMR     	Number		  21h
+ INT2    	Number		  26h
+ HAND    	Number		  40h
+ EST     	Number		  41h
+ MSJ     	Byte		1000h
+ FIN     	Byte		1021h
+ LOOP    	Label		2013h
+ RUT_HND 	Label		3000h
+ TERMINO 	Label		3011h

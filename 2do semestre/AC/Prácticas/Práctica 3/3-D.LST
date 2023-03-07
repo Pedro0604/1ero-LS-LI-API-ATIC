@@ -1,0 +1,76 @@
+
+								p gina: 1 
+
+ Listado Fuente: 3-D.LST
+ Programa Fuente en: 3-D.ASM
+ Fecha: Wed Sep 21 12:37:48 2022
+
+ ÚDir.ÚCodigo maquina	 Linea¿	ÚCodigo en lenguaje ensamble
+
+			      1	HAND EQU 40H
+			      2	EST EQU 41H
+			      3	
+			      4	
+			      5	ORG 1000H
+ 1000 49 4E 47 52 45 53	      6	 MSJ DB "INGRESE UN CARACTER:"
+ 1006 45 20 55 4E 20 43
+ 100C 41 52 41 43 54 45
+ 1012 52 3A
+ 1014 49 4E 47 52 45	      7	 CAR DB ?, ?, ?, ?, ?
+			      8	
+			      9	
+			     10	ORG 2000H
+ 2000 B0 7F		     11	 MOV AL, 01111111B
+ 2002 E6 41		     12	 OUT EST, AL
+ 2004 BB 14 10		     13	 MOV BX, OFFSET CAR
+ 2007 53		     14	 PUSH BX
+ 2008 B1 05		     15	 MOV CL, 5
+ 200A BB 00 10		     16	LOOP:MOV BX, OFFSET MSJ
+ 200D B0 14		     17	 MOV AL, OFFSET CAR-OFFSET MSJ
+ 200F CD 07		     18	 INT 7
+ 2011 5B		     19	 POP BX
+ 2012 CD 06		     20	 INT 6
+ 2014 FF C3		     21	 INC BX
+ 2016 53		     22	 PUSH BX
+ 2017 FE C9		     23	 DEC CL
+ 2019 75 EF		     24	 JNZ LOOP
+			     25	 
+ 201B BB 14 10		     26	 MOV BX, OFFSET CAR
+ 201E B1 0A		     27	 MOV CL, 10
+ 2020 E4 41		     28	POLL:IN AL, EST
+ 2022 80 E0 01		     29	 AND AL, 1
+ 2025 75 F9		     30	 JNZ POLL
+ 2027 80 F9 06		     31	 CMP CL, 6
+ 202A 78 0B		     32	 JS INV
+ 202C 8A 07		     33	 MOV AL, [BX]
+ 202E E6 40		     34	 OUT HAND, AL
+ 2030 FF C3		     35	 INC BX
+ 2032 FE C9		     36	 DEC CL
+ 2034 E9 20 20		     37	 JMP POLL
+			     38	 
+ 2037 FF CB		     39	INV:DEC BX
+ 2039 8A 07		     40	 MOV AL, [BX]
+ 203B E6 40		     41	 OUT HAND, AL
+ 203D FE C9		     42	 DEC CL
+ 203F 75 DF		     43	 JNZ POLL
+			     44	
+ 2041 F4		     45	 HLT
+			     46	 END
+
+
+ S I M B O L O S:
+
+ Nombre:	Tipo:		Valor:
+
+
+
+
+								p gina: 2 
+
+ HAND    	Number		  40h
+ EST     	Number		  41h
+ MSJ     	Byte		1000h
+ CAR     	Byte		1014h
+ LOOP    	Label		200Ah
+ POLL    	Label		2020h
+ INV     	Label		2037h

@@ -1,0 +1,112 @@
+programa tres
+procesos
+  proceso juntarPapeles
+  comenzar
+    mientras HayPapelEnLaEsquina
+      tomarPapel
+  fin
+  proceso juntarFlores
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+  fin
+  proceso recorrerCalleFlores
+  comenzar
+    repetir 9
+      juntarFlores
+      mover
+    juntarFlores
+  fin
+  proceso recorrerCallePapeles
+  comenzar
+    repetir 9
+      juntarPapeles
+      mover
+    juntarPapeles
+  fin
+
+areas
+  ciudad: AreaC(1,1,100,100)
+robots
+  robot primeros
+  variables
+    equipo:numero
+    listo:boolean
+  comenzar
+    derecha
+    RecibirMensaje(equipo,jefe)
+    repetir 4
+      si equipo=1
+        recorrerCallePapeles
+        EnviarMensaje(V,A2)
+      sino
+        recorrerCalleFlores
+        EnviarMensaje(V,B2)
+      RecibirMensaje(listo,*)
+      Pos(PosAv+11, PosCa)
+      
+    si equipo=1
+      recorrerCallePapeles
+      EnviarMensaje(V,A2)
+    sino
+      recorrerCalleFlores
+      EnviarMensaje(V,B2)
+  fin
+  robot segundos
+  variables
+    equipo:numero
+    listo:boolean
+  comenzar
+    derecha
+    RecibirMensaje(equipo,jefe)
+    RecibirMensaje(listo,*)
+    repetir 4
+      si (equipo=1)
+        recorrerCallePapeles
+        EnviarMensaje(V,A1)
+      sino
+        recorrerCalleFlores
+        EnviarMensaje(V,B1)
+      RecibirMensaje(listo,*)
+      Pos(PosAv+11,PosCa)
+      
+    si (equipo=1)
+      recorrerCallePapeles
+    sino
+      recorrerCalleFlores
+  fin
+  robot jefes
+  comenzar
+    EnviarMensaje(1,A1)
+    EnviarMensaje(2,B1)
+    EnviarMensaje(1,A2)
+    EnviarMensaje(2,B2)
+  fin
+variables
+  A1,B1:primeros
+  A2,B2:segundos
+  jefe:jefes
+comenzar
+  AsignarArea(A1,ciudad)
+  AsignarArea(A2,ciudad)
+  AsignarArea(B1,ciudad)
+  AsignarArea(B2,ciudad)
+  AsignarArea(jefe,ciudad)
+  Iniciar(jefe,100,100)
+  Iniciar(A1,1,1)
+  Iniciar(A2,11,1)
+  Iniciar(B1,1,5)
+  Iniciar(B2,11,5)
+fin
+
+
+
+
+
+
+
+
+
+
+
+

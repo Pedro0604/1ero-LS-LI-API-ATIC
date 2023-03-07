@@ -1,0 +1,106 @@
+
+								p gina: 1 
+
+ Listado Fuente: 3-E.LST
+ Programa Fuente en: 3-E.ASM
+ Fecha: Wed Sep 21 12:57:35 2022
+
+ ÚDir.ÚCodigo maquina	 Linea¿	ÚCodigo en lenguaje ensamble
+
+			      1	EOI EQU 20H
+			      2	IMR EQU 21H
+			      3	INT2 EQU 26H
+			      4	HAND EQU 40H
+			      5	EST EQU 41H
+			      6	
+			      7	
+			      8	ORG 40
+ 0028 00 30		      9	 DW RUT_HAND
+			     10	
+			     11	
+			     12	ORG 1000H
+ 1000 49 4E 47 52 45 53	     13	 MSJ DB "INGRESE UN CARACTER:"
+ 1006 45 20 55 4E 20 43
+ 100C 41 52 41 43 54 45
+ 1012 52 3A
+ 1014 49 4E 47 52 45	     14	 CAR DB ?, ?, ?, ?, ?
+			     15	
+			     16	
+			     17	ORG 2000H
+ 2000 BB 14 10		     18	 MOV BX, OFFSET CAR
+ 2003 53		     19	 PUSH BX
+ 2004 B1 05		     20	 MOV CL, 5
+ 2006 BB 00 10		     21	INGR:MOV BX, OFFSET MSJ
+ 2009 B0 14		     22	 MOV AL, OFFSET CAR-OFFSET MSJ
+ 200B CD 07		     23	 INT 7
+ 200D 5B		     24	 POP BX
+ 200E CD 06		     25	 INT 6
+ 2010 FF C3		     26	 INC BX
+ 2012 53		     27	 PUSH BX
+ 2013 FE C9		     28	 DEC CL
+ 2015 75 EF		     29	 JNZ INGR
+			     30	 
+			     31	
+ 2017 BB 14 10		     32	 MOV BX, OFFSET CAR
+ 201A B1 0A		     33	 MOV CL, 10
+ 201C FA		     34	CLI
+ 201D B0 FB		     35	 MOV AL, 11111011B
+ 201F E6 21		     36	 OUT IMR, AL
+ 2021 B0 0A		     37	 MOV AL, 10
+ 2023 E6 26		     38	 OUT INT2, AL
+ 2025 B0 80		     39	 MOV AL, 80H
+ 2027 E6 41		     40	 OUT EST, AL
+ 2029 FB		     41	STI
+ 202A E9 2A 20		     42	LOOP:JMP LOOP
+			     43	
+			     44	ORG 3000H
+ 3000 50		     45	RUT_HAND:PUSH AX
+ 3001 80 F9 06		     46	 CMP CL, 6
+ 3004 78 0B		     47	 JS INV
+ 3006 8A 07		     48	 MOV AL, [BX]
+ 3008 E6 40		     49	 OUT HAND, AL
+ 300A FF C3		     50	 INC BX
+ 300C FE C9		     51	 DEC CL
+ 300E E9 1B 30		     52	 JMP FIN_RUT
+
+
+
+								p gina: 2 
+
+			     53	 
+ 3011 FF CB		     54	INV:DEC BX
+ 3013 8A 07		     55	 MOV AL, [BX]
+ 3015 E6 40		     56	 OUT HAND, AL
+ 3017 FE C9		     57	 DEC CL
+ 3019 74 06		     58	 JZ TERMINO
+			     59	
+ 301B B0 20		     60	FIN_RUT:MOV AL, EOI
+ 301D E6 20		     61	 OUT EOI, AL
+ 301F 58		     62	 POP AX
+ 3020 CF		     63	 IRET
+			     64	
+ 3021 E4 41		     65	TERMINO:IN AL, EST
+ 3023 80 E0 7F		     66	 AND AL, 7FH
+ 3026 E6 41		     67	 OUT EST, AL
+ 3028 58		     68	 POP AX
+ 3029 F4		     69	 HLT
+			     70	 END
+
+
+ S I M B O L O S:
+
+ Nombre:	Tipo:		Valor:
+
+ EOI     	Number		  20h
+ IMR     	Number		  21h
+ INT2    	Number		  26h
+ HAND    	Number		  40h
+ EST     	Number		  41h
+ MSJ     	Byte		1000h
+ CAR     	Byte		1014h
+ INGR    	Label		2006h
+ LOOP    	Label		202Ah
+ RUT_HAND	Label		3000h
+ INV     	Label		3011h
+ FIN_RUT 	Label		301Bh
+ TERMINO 	Label		3021h

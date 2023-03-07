@@ -1,0 +1,1 @@
+D:\Pedro\Facultad\1ero\2do semestre\AC\Segundo parcial - 15_11_2022\5).s

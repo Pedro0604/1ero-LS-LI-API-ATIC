@@ -1,0 +1,90 @@
+programa cinco
+areas
+  a1: AreaP(4,1,4,100)
+  a2: AreaP(6,1,6,100)
+  a3: AreaP(8,1,8,100)
+  a4: AreaP(10,1,10,100)
+  fuente: AreaC(11,11,11,11)
+  inicioJ: AreaP(12,11,12,11)
+robots
+  robot corredor
+  variables
+    id,caAct,avOg:numero
+    hayP:boolean
+  comenzar
+    RecibirMensaje(id,jefe)
+    hayP:=V
+    avOg:=PosAv
+    mientras ((hayP) & (PosCa<100))
+      caAct:=PosCa
+      BloquearEsquina(11,11)
+      Pos(11,11)
+      si HayPapelEnLaEsquina
+        tomarPapel
+      hayP:=HayPapelEnLaEsquina
+      Pos(avOg,caAct)
+      LiberarEsquina(11,11)
+      si HayPapelEnLaBolsa
+        depositarPapel
+        mover
+    EnviarMensaje(id,jefe)
+    EnviarMensaje(PosCa,jefe)
+  fin
+  robot coordinador
+  variables
+    id,ca,max,ganador:numero
+  comenzar
+    max:=-1
+    EnviarMensaje(1,c1)
+    EnviarMensaje(2,c2)
+    EnviarMensaje(3,c3)
+    EnviarMensaje(4,c4)
+    repetir 4
+      RecibirMensaje(id,*)
+      si (id=1)
+        RecibirMensaje(ca,c1)
+      sino
+        si (id=2)
+          RecibirMensaje(ca,c2)
+        sino
+          si (id=3)
+            RecibirMensaje(ca,c3)
+          sino
+            RecibirMensaje(ca,c4)
+      si (ca>max)
+        max:=ca
+        ganador:=id
+    Informar('Ganador ',ganador)
+  fin
+variables
+  c1,c2,c3,c4:corredor
+  jefe:coordinador
+comenzar
+  AsignarArea(c1,a1)
+  AsignarArea(c2,a2)
+  AsignarArea(c3,a3)
+  AsignarArea(c4,a4)
+  AsignarArea(c1,fuente)
+  AsignarArea(c2,fuente)
+  AsignarArea(c3,fuente)
+  AsignarArea(c4,fuente)
+  AsignarArea(jefe,inicioJ)
+  Iniciar(jefe,12,11)
+  Iniciar(c1,4,1)
+  Iniciar(c2,6,1)
+  Iniciar(c3,8,1)
+  Iniciar(c4,10,1)
+
+
+fin
+
+
+
+
+
+
+
+
+
+
+

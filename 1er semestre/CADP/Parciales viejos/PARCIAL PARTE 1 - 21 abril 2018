@@ -1,0 +1,24 @@
+program parcial;
+procedure descomponer (num:integer;var suma,cant:integer);
+begin
+  suma:=0;
+  if(num MOD 3=0)then
+    cant:=cant+1;
+  while(num<>0)do begin
+    suma:=suma+(num MOD 10);
+    num:=num DIV 10;
+  end;
+end;
+var
+  i,dato,suma,multiplos,total:integer;
+begin
+  total:=0;
+  multiplos:=0;
+  for i:=1 to 3 do begin
+    read(dato);
+    descomponer(dato,suma,multiplos);
+    total:=total+suma;
+  end;
+  writeln('Total: ',total);
+  writeln('Multiplos: ',multiplos);
+end.

@@ -1,0 +1,100 @@
+programa tres
+areas
+  cuadrante: AreaPC(2,2,10,10)
+  inicio: AreaC(1,1,5,1)
+robots
+  robot recolectores
+  variables
+    av,ca,avOg,caOg,cantF,id:numero
+    hayF,listo:boolean
+  comenzar
+    hayF:=V
+    cantF:=0
+    avOg:=PosAv
+    caOg:=PosCa
+    RecibirMensaje(id,jefe)
+    RecibirMensaje(av,jefe)
+    RecibirMensaje(ca,jefe)
+    mientras (hayF)
+      BloquearEsquina(av,ca)
+      Pos(av,ca)
+      si HayFlorEnLaEsquina
+        tomarFlor
+        cantF:=cantF+1
+      hayF:=HayFlorEnLaEsquina
+      Pos(avOg,caOg)
+      LiberarEsquina(av,ca)
+    EnviarMensaje(V,jefe)
+    RecibirMensaje(listo,jefe)
+    EnviarMensaje(id,jefe)
+    EnviarMensaje(cantF,jefe)
+  fin
+  robot fiscalizador
+  variables
+    av,ca,id,max,f,maxId:numero
+    hayF,listo:boolean
+  comenzar
+    hayF:=V
+    max:=-1
+    EnviarMensaje(1,r1)
+    EnviarMensaje(2,r2)
+    EnviarMensaje(3,r3)
+    EnviarMensaje(4,r4)
+    Random(av,2,10)
+    Random(ca,2,10)
+    EnviarMensaje(av,r1)
+    EnviarMensaje(ca,r1)
+    EnviarMensaje(av,r2)
+    EnviarMensaje(ca,r2)
+    EnviarMensaje(av,r3)
+    EnviarMensaje(ca,r3)
+    EnviarMensaje(av,r4)
+    EnviarMensaje(ca,r4)
+    RecibirMensaje(listo,*)
+    RecibirMensaje(listo,*)
+    RecibirMensaje(listo,*)
+    RecibirMensaje(listo,*)
+    EnviarMensaje(listo,r1)
+    EnviarMensaje(listo,r2)
+    EnviarMensaje(listo,r3)
+    EnviarMensaje(listo,r4)
+    repetir 4
+      RecibirMensaje(id,*)
+      si(id=1)
+        RecibirMensaje(f,r1)
+      sino
+        si(id=2)
+          RecibirMensaje(f,r2)
+        sino
+          si(id=3)
+            RecibirMensaje(f,r3)
+          sino
+            RecibirMensaje(f,r4)
+      si (f>max)
+        max:=f
+        maxId:=id
+    Informar('Max ',maxId)
+  fin
+variables
+  r1,r2,r3,r4:recolectores
+  jefe: fiscalizador
+comenzar
+  AsignarArea(r1,cuadrante)
+  AsignarArea(r2,cuadrante)
+  AsignarArea(r3,cuadrante)
+  AsignarArea(r4,cuadrante)
+  AsignarArea(r1,inicio)
+  AsignarArea(r2,inicio)
+  AsignarArea(r3,inicio)
+  AsignarArea(r4,inicio)
+  AsignarArea(jefe,inicio)
+  Iniciar(r1,2,1)
+  Iniciar(r2,3,1)
+  Iniciar(r3,4,1)
+  Iniciar(r4,5,1)
+  Iniciar(jefe,1,1)
+fin
+
+
+
+

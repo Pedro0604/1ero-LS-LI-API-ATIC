@@ -1,0 +1,105 @@
+programa uno
+procesos
+  proceso juntarFlores
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+  fin
+  proceso depositarFlores
+  variables
+    menorA100:boolean
+  comenzar
+    menorA100:=PosCa<100
+    mientras (HayFlorEnLaBolsa & menorA100)
+      depositarFlor
+      mover
+    si (~menorA100)&(HayFlorEnLaBolsa)
+      depositarFlor
+  fin
+areas
+  serverRoom: AreaP(100,100,100,100)
+  av1: AreaPC(1,1,1,100)
+  av2: AreaPC(2,1,2,100)
+  av3: AreaPC(3,1,3,100)
+robots
+  robot cliente
+  variables
+    id,f,ca:numero
+    listo,sigo:boolean
+  comenzar
+    RecibirMensaje(id,servidor)
+    sigo:=V
+    mientras (sigo)
+      Random(f,1,4)
+      EnviarMensaje(id,servidor)
+      EnviarMensaje(f,servidor)
+      ca:=PosCa
+      EnviarMensaje(ca,servidor)
+      RecibirMensaje(listo,servidor)
+      mover
+      juntarFlores
+      Pos(PosAv,PosCa+-1)
+      depositarFlores
+      sigo:=PosCa<100
+      EnviarMensaje(sigo,servidor)
+  fin
+  robot servidor
+  variables
+    id,f,ca:numero
+    sigue1,sigue2,sigue3:boolean
+  comenzar
+    sigue1:=V
+    sigue2:=V
+    sigue3:=V
+    EnviarMensaje(1,c1)
+    EnviarMensaje(2,c2)
+    EnviarMensaje(3,c3)
+    mientras (sigue1 & sigue2 & sigue3)
+      repetir 3
+        RecibirMensaje(id,*)
+        si (id=1)
+          RecibirMensaje(f,c1)
+          RecibirMensaje(ca,c1)
+        sino
+          si (id=2)
+            RecibirMensaje(f,c2)
+            RecibirMensaje(ca,c2)
+          sino
+            RecibirMensaje(f,c3)
+            RecibirMensaje(ca,c3)
+        Pos(id,ca+1)
+        repetir f
+          depositarFlor
+        Pos(100,100)
+        si (id=1)
+          EnviarMensaje(V,c1)
+          RecibirMensaje(sigue1,c1)
+        sino
+          si (id=2)
+            EnviarMensaje(V,c2)
+            RecibirMensaje(sigue2,c2)
+          sino
+            EnviarMensaje(V,c3)
+            RecibirMensaje(sigue3,c3)
+  fin
+variables
+  c1,c2,c3:cliente
+  servidor:servidor
+comenzar
+  AsignarArea(c1,av1)
+  AsignarArea(c2,av2)
+  AsignarArea(c3,av3)
+  AsignarArea(servidor,av1)
+  AsignarArea(servidor,av2)
+  AsignarArea(servidor,av3)
+  AsignarArea(servidor,serverRoom)
+  Iniciar(c1,1,1)
+  Iniciar(c2,2,1)
+  Iniciar(c3,3,1)
+  Iniciar(servidor,100,100)
+fin
+
+
+
+
+

@@ -1,0 +1,49 @@
+programa tres
+procesos
+  proceso juntarPapeles
+  comenzar
+    mientras HayPapelEnLaEsquina
+      tomarPapel
+  fin
+areas
+  av1: AreaP(1,1,1,100)
+  av2: AreaP(2,1,2,100)
+  av3: AreaP(3,1,3,100)
+  areaJ: AreaP(4,1,4,1)
+robots
+  robot papeleros
+  variables
+    id:numero
+    sigEtapa:boolean
+  comenzar
+    Recibir (id,jefe)
+    repetir 19
+      repetir 5
+        juntarPapeles
+        mover
+      EnviarMensaje(V,jefe)
+      Recibir(sigEtapa,jefe)
+    repetir 4
+      juntarPapeles
+      mover
+    juntarPapeles
+  fin
+  robot fiscalizador
+  variables
+    finE1,finE2,finE3:boolean
+  comenzar
+    
+  fin
+variables
+  p1,p2,p3:papeleros
+  jefe:fiscalizador
+comenzar
+  AsignarArea(p1,av1)
+  AsignarArea(p2,av2)
+  AsignarArea(p3,av3)
+  AsignarArea(jefe,areaJ)
+  Iniciar(p1,1,1)
+  Iniciar(p2,2,1)
+  Iniciar(p3,3,1)
+  Iniciar(jefe,4,1)
+fin

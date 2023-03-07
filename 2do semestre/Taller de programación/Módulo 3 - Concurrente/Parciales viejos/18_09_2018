@@ -1,0 +1,159 @@
+programa parcialViejo1
+areas
+  areaALimpiar: AreaPC(45,48,62,69)
+  inicioR: AreaPC(10,10,13,10)
+  inicioJ: AreaP(1,1,1,1)
+robots
+  robot recolector
+  variables
+    avOg,caOg,av,ca,id:numero
+    masJunto,hayF,hayP:boolean
+  comenzar
+    avOg:=PosAv
+    caOg:=PosCa
+    RecibirMensaje(id,jefe)
+    repetir 5
+      Random(av,45,62)
+      Random(ca,48,69)
+      BloquearEsquina(av,ca)
+      Pos(av,ca)
+      EnviarMensaje(id,jefe)
+      hayF:= HayFlorEnLaEsquina
+      EnviarMensaje(hayF,jefe)
+      mientras HayFlorEnLaEsquina
+        tomarFlor
+        hayF:= HayFlorEnLaEsquina
+        EnviarMensaje(hayF,jefe)
+      hayP:= HayPapelEnLaEsquina
+      EnviarMensaje(hayP,jefe)
+      mientras HayPapelEnLaEsquina
+        tomarPapel
+        hayP:= HayPapelEnLaEsquina
+        EnviarMensaje(hayP,jefe)
+      Pos(avOg,caOg)
+      LiberarEsquina(av,ca)
+    RecibirMensaje(masJunto,jefe)
+    si masJunto
+      mientras HayFlorEnLaBolsa
+        depositarFlor
+      mientras HayPapelEnLaBolsa
+        depositarPapel
+  fin
+  robot jefe
+  variables
+    id,c1,c2,c3,c4,max,maxId:numero
+    hayF,hayP:boolean
+  comenzar
+    c1:=0
+    c2:=0
+    c3:=0
+    c4:=0
+    max:=-1
+    EnviarMensaje(1,r1)
+    EnviarMensaje(2,r2)
+    EnviarMensaje(3,r3)
+    EnviarMensaje(4,r4)
+    repetir 20
+      RecibirMensaje(id,*)
+      si (id=1)
+        RecibirMensaje(hayF,r1)
+        mientras hayF
+          c1:=c1+1
+          RecibirMensaje(hayF,r1)
+        RecibirMensaje(hayP,r1)
+        mientras hayP
+          c1:=c1+1
+          RecibirMensaje(hayP,r1)
+        si (c1>max)
+          max:=c1
+          maxId:=id
+      sino
+        si (id=2)
+          RecibirMensaje(hayF,r2)
+          mientras hayF
+            c2:=c2+1
+            RecibirMensaje(hayF,r2)
+          RecibirMensaje(hayP,r2)
+          mientras hayP
+            c2:=c2+1
+            RecibirMensaje(hayP,r2)
+          si (c2>max)
+            max:=c2
+            maxId:=id
+        sino
+          si (id=3)
+            RecibirMensaje(hayF,r3)
+            mientras hayF
+              c3:=c3+1
+              RecibirMensaje(hayF,r3)
+            RecibirMensaje(hayP,r3)
+            mientras hayP
+              c3:=c3+1
+              RecibirMensaje(hayP,r3)
+            si (c3>max)
+              max:=c3
+              maxId:=id
+          sino
+            RecibirMensaje(hayF,r4)
+            mientras hayF
+              c4:=c4+1
+              RecibirMensaje(hayF,r4)
+            RecibirMensaje(hayP,r4)
+            mientras hayP
+              c4:=c4+1
+              RecibirMensaje(hayP,r4)
+            si (c4>max)
+              max:=c4
+              maxId:=id
+    Informar('maxId',maxId)
+    si (maxId=1)
+      EnviarMensaje(V,r1)
+      EnviarMensaje(F,r2)
+      EnviarMensaje(F,r3)
+      EnviarMensaje(F,r4)
+    sino
+      si (maxId=2)
+        EnviarMensaje(F,r1)
+        EnviarMensaje(V,r2)
+        EnviarMensaje(F,r3)
+        EnviarMensaje(F,r4)
+      sino
+        si (maxId=3)
+          EnviarMensaje(F,r1)
+          EnviarMensaje(F,r2)
+          EnviarMensaje(V,r3)
+          EnviarMensaje(F,r4)
+        sino
+          EnviarMensaje(F,r1)
+          EnviarMensaje(F,r2)
+          EnviarMensaje(F,r3)
+          EnviarMensaje(V,r4)
+  fin
+variables
+  r1,r2,r3,r4:recolector
+  jefe:jefe
+comenzar
+  AsignarArea(r1,areaALimpiar)
+  AsignarArea(r1,inicioR)
+  AsignarArea(r2,areaALimpiar)
+  AsignarArea(r2,inicioR)
+  AsignarArea(r3,areaALimpiar)
+  AsignarArea(r3,inicioR)
+  AsignarArea(r4,areaALimpiar)
+  AsignarArea(r4,inicioR)
+  AsignarArea(jefe,inicioJ)
+  Iniciar(r1,10,10)
+  Iniciar(r2,11,10)
+  Iniciar(r3,12,10)
+  Iniciar(r4,13,10)
+  Iniciar(jefe,1,1)
+fin
+
+
+
+
+
+
+
+
+

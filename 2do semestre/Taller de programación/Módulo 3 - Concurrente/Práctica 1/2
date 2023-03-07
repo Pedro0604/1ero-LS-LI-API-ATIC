@@ -1,0 +1,76 @@
+programa dos
+procesos
+  proceso juntarPapeles(ES p:numero)
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+      p:=p+1
+  fin
+  proceso recorrerLado(ES p:numero)
+  comenzar
+    repetir 19
+      juntarPapeles(p)
+      mover
+    juntarPapeles(p)
+  fin
+areas
+  cuadrado: AreaC(10,10,30,30)
+robots
+  robot tipo1
+  variables
+    p:numero
+  comenzar
+    p:=0
+    recorrerLado(p)
+    Informar(p)
+  fin
+  
+  robot tipo2
+  variables
+    p:numero
+  comenzar
+    p:=0
+    derecha
+    recorrerLado(p)
+    Informar(p)
+  fin
+  
+  robot tipo3
+  variables
+    p:numero
+  comenzar
+    p:=0
+    repetir 2
+      derecha
+    recorrerLado(p)
+    Informar(p)
+  fin
+  
+  robot tipo4
+  variables
+    p:numero
+  comenzar
+    p:=0
+    repetir 3
+      derecha
+    recorrerLado(p)
+    Informar(p)
+  fin
+  
+variables
+  robot1:tipo1
+  robot2:tipo2
+  robot3:tipo3
+  robot4:tipo4
+comenzar
+  AsignarArea(robot1,cuadrado)
+  AsignarArea(robot2,cuadrado)
+  AsignarArea(robot3,cuadrado)
+  AsignarArea(robot4,cuadrado)
+  Iniciar(robot1,10,10)
+  Iniciar(robot2,10,30)
+  Iniciar(robot3,30,30)
+  Iniciar(robot4,30,10)
+fin
+
+

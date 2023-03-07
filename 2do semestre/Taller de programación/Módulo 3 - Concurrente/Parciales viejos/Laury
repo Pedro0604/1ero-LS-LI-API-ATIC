@@ -1,0 +1,125 @@
+programa laury
+areas
+  inicioJ: AreaP(1,1,1,1)
+  inicioEquipos: AreaPC(50,50,53,53)
+  L1Av: AreaPC(5,4,5,16)
+  L1Ca: AreaPC(6,4,9,4)
+  L2Av: AreaPC(11,4,11,16)
+  L2Ca: AreaPC(12,4,15,4)
+  fyp: AreaPC(15,15,15,15)
+robots
+  robot florero
+  variables
+    avAct,avOg,caOg,equipo:numero
+  comenzar
+    caOg:=4
+    derecha
+    equipo:=0
+    RecibirMensaje(equipo,jefe)
+    si (equipo=1)
+      avOg:=5
+    sino
+      avOg:=11
+    avAct:=avOg
+    repetir 4
+      BloquearEsquina(15,15)
+      Pos(15,15)
+      tomarFlor
+      si (avOg=avAct)
+        BloquearEsquina(avOg,caOg)
+      Pos(avAct,caOg)
+      LiberarEsquina(15,15)
+      depositarFlor
+      mover
+      si(avOg=avAct)
+        LiberarEsquina(avOg,caOg)
+      avAct:=PosAv
+    BloquearEsquina(15,15)
+    Pos(15,15)
+    tomarFlor
+    Pos(avAct,caOg)
+    LiberarEsquina(15,15)
+    depositarFlor
+    EnviarMensaje(equipo,jefe)
+  fin
+  robot papelero
+  variables
+    avOg,caAct,caOg,equipo:numero
+  comenzar
+    caOg:=4
+    equipo:=0
+    RecibirMensaje(equipo,jefe)
+    si (equipo=1)
+      avOg:=5
+    sino
+      avOg:=11
+    caAct:=caOg
+    repetir 12
+      BloquearEsquina(15,15)
+      Pos(15,15)
+      tomarPapel
+      si (caOg=caAct)
+        BloquearEsquina(avOg,caOg)
+      Pos(avOg,caAct)
+      LiberarEsquina(15,15)
+      depositarPapel
+      mover
+      si (caOg=caAct)
+        LiberarEsquina(avOg,caOg)
+      caAct:=PosCa
+    BloquearEsquina(15,15)
+    Pos(15,15)
+    tomarPapel
+    Pos(avOg,caAct)
+    LiberarEsquina(15,15)
+    depositarPapel
+    EnviarMensaje(equipo,jefe)
+  fin
+  robot fiscalizador
+  variables
+    equipo:numero
+  comenzar
+    EnviarMensaje(1,f1)
+    EnviarMensaje(1,p1)
+    EnviarMensaje(2,f2)
+    EnviarMensaje(2,p2)
+    repetir 4
+      RecibirMensaje(equipo,*)
+    si(equipo=1)
+      Informar(2)
+    sino
+      Informar(1)
+  fin
+variables
+  f1,f2:florero
+  p1,p2:papelero
+  jefe:fiscalizador
+comenzar
+  AsignarArea(f1,inicioEquipos)
+  AsignarArea(f2,inicioEquipos)
+  AsignarArea(p1,inicioEquipos)
+  AsignarArea(p2,inicioEquipos)
+  AsignarArea(f1,fyp)
+  AsignarArea(f2,fyp)
+  AsignarArea(p1,fyp)
+  AsignarArea(p2,fyp)
+  AsignarArea(f1,L1Av)
+  AsignarArea(p1,L1Av)
+  AsignarArea(f2,L2Av)
+  AsignarArea(p2,L2Av)
+  AsignarArea(f1,L1Ca)
+  AsignarArea(f2,L2Ca)
+  AsignarArea(jefe,inicioJ)
+  Iniciar(f1,50,50)
+  Iniciar(f2,51,51)
+  Iniciar(p1,52,52)
+  Iniciar(p2,53,53)
+  Iniciar(jefe,1,1)
+fin
+
+
+
+
+
+
+

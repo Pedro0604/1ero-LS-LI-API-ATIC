@@ -1,0 +1,112 @@
+
+								p gina: 1 
+
+ Listado Fuente: 12.LST
+ Programa Fuente en: 12.ASM
+ Fecha: Tue Sep 20 20:47:04 2022
+
+ ÚDir.ÚCodigo maquina	 Linea¿	ÚCodigo en lenguaje ensamble
+
+			      1	TIMER EQU 10H
+			      2	COMP EQU 11H
+			      3	PIC EQU 20H
+			      4	EOI EQU 20H
+			      5	IMR EQU 21H
+			      6	INT1 EQU 25H
+			      7	
+			      8	ORG 1000H
+ 1000 30		      9	 MIN2 DB 30H
+ 1001 30		     10	 MIN1 DB 30H
+ 1002 3A		     11	 DP DB 3AH
+ 1003 30		     12	 SEG2 DB 30H
+ 1004 30		     13	 SEG1 DB 30H
+ 1005 0A		     14	 SALTO DB 0AH
+			     15	
+			     16	ORG 40
+ 0028 00 30		     17	DW RUT_TIMER
+			     18	
+			     19	ORG 2000H
+ 2000 FA		     20	 CLI
+ 2001 B0 FD		     21	 MOV AL, 11111101B
+ 2003 E6 21		     22	 OUT IMR, AL  ; PIC: registro IMR
+ 2005 B0 0A		     23	 MOV AL, 10
+ 2007 E6 25		     24	 OUT INT1, AL  ; PIC: registro INT0
+ 2009 B0 01		     25	 MOV AL, 1
+ 200B E6 11		     26	 OUT COMP, AL ; COMP: 1SEG 
+ 200D B0 00		     27	 MOV AL, 0
+ 200F E6 10		     28	 OUT TIMER, AL  ; CONT: 0
+ 2011 FB		     29	 STI
+			     30	 
+ 2012 E9 12 20		     31	LAZO:JMP LAZO
+			     32	
+			     33	
+			     34	ORG 3000H
+ 3000 BB 04 10		     35	RUT_TIMER:MOV BX, OFFSET SEG1
+ 3003 80 3F 39		     36	 CMP BYTE PTR [BX], 39H
+ 3006 74 05		     37	 JZ AUMENTARS2
+ 3008 FE 07		     38	 INC BYTE PTR [BX]
+ 300A E9 40 30		     39	 JMP PRINT
+			     40	 
+ 300D C6 07 30		     41	AUMENTARS2:MOV BYTE PTR [BX], 30H
+ 3010 BB 03 10		     42	 MOV BX, OFFSET SEG2
+ 3013 80 3F 35		     43	 CMP BYTE PTR [BX], 35H
+ 3016 74 05		     44	 JZ AUMM1
+ 3018 FE 07		     45	 INC BYTE PTR [BX]
+ 301A E9 40 30		     46	 JMP PRINT
+			     47	
+ 301D C6 07 30		     48	AUMM1:MOV BYTE PTR [BX], 30H
+ 3020 BB 01 10		     49	 MOV BX, OFFSET MIN1
+ 3023 80 3F 39		     50	 CMP BYTE PTR [BX], 39H
+ 3026 74 05		     51	 JZ AUMM2
+ 3028 FE 07		     52	 INC BYTE PTR [BX]
+ 302A E9 40 30		     53	 JMP PRINT
+			     54	 
+ 302D C6 07 30		     55	AUMM2:MOV BYTE PTR [BX], 30H
+
+
+
+								p gina: 2 
+
+ 3030 BB 00 10		     56	 MOV BX, OFFSET MIN2
+ 3033 80 3F 35		     57	 CMP BYTE PTR [BX], 35H
+ 3036 74 05		     58	 JZ HORA
+ 3038 FE 07		     59	 INC BYTE PTR [BX]
+ 303A E9 40 30		     60	 JMP PRINT
+			     61	 
+ 303D C6 07 30		     62	HORA:MOV BYTE PTR [BX], 30H
+			     63	 
+ 3040 BB 00 10		     64	PRINT:MOV BX, OFFSET MIN2
+ 3043 B0 05		     65	 MOV AL, OFFSET SALTO-OFFSET MIN2
+ 3045 CD 07		     66	 INT 7
+			     67	
+ 3047 B0 20		     68	 MOV AL, EOI
+ 3049 E6 20		     69	 OUT EOI, AL ; PIC: registro EOI
+ 304B B0 00		     70	 MOV AL, 0
+ 304D E6 10		     71	 OUT TIMER, AL
+ 304F CF		     72	 IRET
+			     73	 END
+
+
+ S I M B O L O S:
+
+ Nombre:	Tipo:		Valor:
+
+ TIMER   	Number		  10h
+ COMP    	Number		  11h
+ PIC     	Number		  20h	No usado
+ EOI     	Number		  20h
+ IMR     	Number		  21h
+ INT1    	Number		  25h
+ MIN2    	Byte		1000h
+ MIN1    	Byte		1001h
+ DP      	Byte		1002h	No usado
+ SEG2    	Byte		1003h
+ SEG1    	Byte		1004h
+ SALTO   	Byte		1005h
+ LAZO    	Label		2012h
+ RUT_TIME	Label		3000h
+ AUMENTAR	Label		300Dh
+ AUMM1   	Label		301Dh
+ AUMM2   	Label		302Dh
+ HORA    	Label		303Dh
+ PRINT   	Label		3040h
