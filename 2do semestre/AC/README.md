@@ -1,5 +1,5 @@
 # Arquitectura de Computadoras
-## 1er año - 1er semestre
+## 1er año - 2do semestre
 ### [PDFs](https://github.com/Pedro0604/1ero-LS-LI-API-ATIC/tree/main/2do%20semestre/AC/PDFs)
   * [Anexos](https://github.com/Pedro0604/1ero-LS-LI-API-ATIC/tree/main/2do%20semestre/AC/PDFs/Anexos)
   * [Clases](https://github.com/Pedro0604/1ero-LS-LI-API-ATIC/tree/main/2do%20semestre/AC/PDFs/Clases)
